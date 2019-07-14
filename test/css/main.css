@@ -1,0 +1,5 @@
+.root {
+  display: block;
+  background: var(--mainColor);
+  color: var(--additionalColor);
+}

@@ -1,0 +1,9 @@
+:root {
+  --theme-dark-mainColor: #000;
+  --theme-dark-additionalColor: #fff;
+}
+
+:root {
+  --mainColor: #fff;
+  --additionalColor: #000;
+}

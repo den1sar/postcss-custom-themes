@@ -1,0 +1,9 @@
+.theme-dark .root {
+  background: #000;
+  color: #fff;
+}
+.root {
+  display: block;
+  background: #fff;
+  color: #000;
+}
