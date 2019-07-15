@@ -1,5 +1,8 @@
 # postcss-custom-themes
-Postcss plugin duplicating class with theme selector and changing all variables to the same, only with theme prefix.
+
+Generate theme specific classes, substituting initial css variables for the theme ones.
+Creates a global `theme-{themeName}` class that is prepended to every class that has css variables.
+Must be inserted before postcss-custom-properties.
 
 ## Install
 ```npm install -D postcss-custom-themes```
@@ -13,7 +16,7 @@ module.exports = {
     require('postcss-custom-themes')({
       themes: ['dark'],
       importFrom: 'css/colors.css',
-      modules: false, // not required
+      modules: false,
     }),
     require('postcss-custom-properties')({
       preserve: true,
@@ -22,6 +25,13 @@ module.exports = {
   ]
 }
 ```
+
+## Options
+|                    Name                     |            Type             | Required | Description                                        |
+| :-----------------------------------------: | :-------------------------: | :---------: | :------------------------------------------------- |
+|            **[`themes`](#themes)**          |          `Array`          |   `true`  | Array of theme prefixes                                |
+|           **[`importFrom`](#importFrom)**           |    `String`    | `true`  | File with css variables. Needed for substitution checks                    |
+|           **[`modules `](#modules)**           |    `Boolean`    | `false` default: `false`  | If you use `CSSModules`, set it to true in order to apply the theme class globally (wraps the theme class in `:global` selector).                    |
 
 ### Input CSS
 ```css
@@ -34,7 +44,9 @@ module.exports = {
   --mainColor: #fff;
   --additionalColor: #000;
 }
+```
 
+```css
 .root {
   display: block;
   background: var(--mainColor);

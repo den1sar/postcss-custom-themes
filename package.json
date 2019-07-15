@@ -22,10 +22,7 @@
     "node": ">=6.2.2"
   },
   "scripts": {
-    "prebuild": "rimraf dist/*",
     "build": "babel src --out-dir dist --ignore \"src/**/*.test.js\"",
-    "ci": "eslint . && jest",
-    "lint": "eslint . --fix",
     "test": "jest"
   },
   "dependencies": {
@@ -35,15 +32,8 @@
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
-    "eslint": "^5.0.0",
-    "eslint-config-i-am-meticulous": "^11.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jest": "^21.22.1",
-    "eslint-plugin-prettier": "^2.2.0",
     "fs": "^0.0.1-security",
     "jest": "^23.6.0",
-    "postcss-custom-properties": "^8.0.5",
-    "prettier": "~1.14.0",
-    "rimraf": "^2.6.2"
+    "postcss-custom-properties": "^8.0.5"
   }
 }
