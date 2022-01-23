@@ -12,6 +12,6 @@ async function mainTest(cssPath, options) {
       preserve: false,
       importFrom: './test/css/colors.css',
     }),
-  ]).process(css, { from: undefined });
+  ]).process(css, {from: undefined});
   return result.css;
 }

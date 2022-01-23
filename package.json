@@ -1,6 +1,6 @@
 {
   "name": "postcss-custom-themes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "PostCSS plugin to add custom themes with custom properties",
   "keywords": [
     "css",
@@ -25,15 +25,16 @@
     "build": "babel src --out-dir dist --ignore \"src/**/*.test.js\"",
     "test": "jest"
   },
-  "dependencies": {
-    "postcss": "^7.0.1"
-  },
   "devDependencies": {
-    "@babel/cli": "^7.1.0",
-    "@babel/core": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "core-js": "3",
     "fs": "^0.0.1-security",
-    "jest": "^23.6.0",
-    "postcss-custom-properties": "^8.0.5"
+    "jest": "^27.4.7",
+    "postcss-custom-properties": "^12.1.3"
+  },
+  "dependencies": {
+    "postcss": "^8.4.5"
   }
 }

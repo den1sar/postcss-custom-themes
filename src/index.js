@@ -3,47 +3,58 @@ const readFile = require('./lib');
 
 async function getCustomPropertiesFromCSSFile(from) {
   const css = await readFile(from);
-  return postcss.parse(css, { from });
+  return postcss.parse(css, {from});
 }
 
-module.exports = postcss.plugin('postcss-custom-themes', opts => {
-  opts = Object.assign({
+module.exports = (opts) => {
+  const options = Object.assign({
     themes: [],
     importFrom: '',
     modules: false,
   }, opts);
 
-  return async (css) => {
-    if (opts.themes && opts.themes.length && opts.importFrom) {
-      const cssFile = await getCustomPropertiesFromCSSFile(opts.importFrom);
-      const regExp = /var\(--([^)]*)\)/g;
-      css.walkRules(rule => {
-        const hasVars = rule.some(i => i.value.match(regExp));
+  return {
+    postcssPlugin: 'postcss-custom-themes',
+    async Rule(rule) {
+      if (options.themes && options.themes.length && options.importFrom) {
+        const cssFile = await getCustomPropertiesFromCSSFile(options.importFrom);
+        const regExp = /var\(--([^)]*)\)/g;
+        const hasVars = rule.some(i => typeof i.value === 'undefined' ? null : i.value.match(regExp));
+
         if (hasVars) {
-          opts.themes.forEach(theme => {
-            const selector = opts.modules ? `:global(.theme-${theme})` : `.theme-${theme}`;
+          for (const theme of options.themes) {
+            const selector = options.modules ? `:global(.theme-${theme})` : `.theme-${theme}`;
             const themeRule = rule.clone({
               selector: `${selector} ${rule.selector}`
             });
+
             themeRule.replaceValues(regExp, string => {
               const prop = string.replace(regExp, '$1');
-              const hasThemeVar = cssFile.some(i => i.some(d => d.prop === `--theme-${theme}-${prop}`));
+              let newDeclValue;
 
-              if (hasThemeVar) {
-                return `var(--theme-${theme}-${prop})`;
-              }
+              cssFile.walkDecls((decl) => {
+                if (decl.prop === `--theme-${theme}-${prop}`) {
+                  newDeclValue = `var(--theme-${theme}-${prop})`;
+                }
+              });
+
+              return newDeclValue;
             });
+
             themeRule.walkDecls(decl => {
               if (!decl.value.match(regExp)) {
                 decl.remove();
               }
             });
+
             if (themeRule.nodes.length) {
-              css.insertBefore(rule, themeRule);
+              rule.root().insertBefore(rule, themeRule);
             }
-          });
+          }
         }
-      });
+      }
     }
   }
-});
+}
+
+module.exports.postcss = true;
