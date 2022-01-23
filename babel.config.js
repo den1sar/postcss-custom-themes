@@ -5,6 +5,7 @@ module.exports = {
       {
         debug: false,
         useBuiltIns: 'usage',
+        corejs: "3.0",
         targets: {
           node: '6',
         },
